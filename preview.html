@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Headphonez — App Store Listing Preview</title>
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #f5f5f7;
+    --surface: #ffffff;
+    --text: #1c1c1e;
+    --muted: #6e6e73;
+    --hair: #e2e2e6;
+    --pill-bg: rgba(120,120,128,.12);
+    --link: #0a84ff;
+    --accent1: #ff5a5f;
+    --accent2: #d81b73;
+    --shadow: 0 1px 3px rgba(0,0,0,.08);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #000000;
+      --surface: #1c1c1e;
+      --text: #f2f2f7;
+      --muted: #98989d;
+      --hair: #2c2c2e;
+      --pill-bg: rgba(120,120,128,.24);
+      --link: #0a84ff;
+      --shadow: none;
+    }
+  }
+  :root[data-theme="light"] {
+    color-scheme: light;
+    --bg: #f5f5f7; --surface: #ffffff; --text: #1c1c1e; --muted: #6e6e73;
+    --hair: #e2e2e6; --pill-bg: rgba(120,120,128,.12); --shadow: 0 1px 3px rgba(0,0,0,.08);
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --bg: #000000; --surface: #1c1c1e; --text: #f2f2f7; --muted: #98989d;
+    --hair: #2c2c2e; --pill-bg: rgba(120,120,128,.24); --shadow: none;
+  }
+
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.5;
+    color: var(--text);
+    background: var(--bg);
+    overflow-x: hidden;
+  }
+  .wrap { max-width: 920px; margin: 0 auto; padding: 0 0 4rem; }
+
+  /* Preview banner */
+  .banner {
+    background: linear-gradient(90deg, var(--accent1), var(--accent2));
+    color: #fff;
+    text-align: center;
+    font-size: .8rem;
+    font-weight: 600;
+    letter-spacing: .03em;
+    padding: .5rem 1rem;
+  }
+
+  .pad { padding-left: 1.25rem; padding-right: 1.25rem; }
+
+  /* Hero header */
+  .hero {
+    display: flex;
+    align-items: center;
+    gap: 1.1rem;
+    padding: 1.75rem 1.25rem 1.25rem;
+  }
+  .app-icon {
+    width: 118px; height: 118px;
+    border-radius: 26px;
+    flex-shrink: 0;
+    box-shadow: 0 6px 22px rgba(216,27,115,.28), inset 0 0 0 .5px rgba(0,0,0,.06);
+    display: block;
+  }
+  .hero-meta { min-width: 0; flex: 1; }
+  .hero-meta h1 { font-size: 1.7rem; line-height: 1.15; margin: 0 0 .15rem; letter-spacing: -.02em; }
+  .hero-sub { color: var(--muted); font-size: 1rem; margin: 0 0 .9rem; }
+  .hero-row {
+    display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+  }
+  .get {
+    display: inline-block;
+    background: var(--pill-bg);
+    color: var(--link);
+    font-weight: 700;
+    font-size: .95rem;
+    padding: .4rem 1.4rem;
+    border-radius: 999px;
+    text-decoration: none;
+    letter-spacing: .02em;
+  }
+  .price-note { color: var(--muted); font-size: .75rem; margin-top: .3rem; text-transform: uppercase; letter-spacing: .04em; }
+
+  /* Fact strip */
+  .facts {
+    display: flex;
+    overflow-x: auto;
+    gap: 0;
+    border-top: .5px solid var(--hair);
+    border-bottom: .5px solid var(--hair);
+    margin-top: .25rem;
+    -webkit-overflow-scrolling: touch;
+  }
+  .fact {
+    flex: 1 0 auto;
+    min-width: 110px;
+    text-align: center;
+    padding: .85rem 1.1rem;
+    border-left: .5px solid var(--hair);
+  }
+  .fact:first-child { border-left: none; }
+  .fact .k { color: var(--muted); font-size: .66rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; }
+  .fact .v { font-size: 1.05rem; font-weight: 700; margin-top: .2rem; }
+  .fact .v.small { font-size: .82rem; font-weight: 700; }
+
+  /* Sections */
+  section { margin-top: 2rem; }
+  .sec-head {
+    display: flex; align-items: baseline; justify-content: space-between;
+    margin: 0 1.25rem .9rem;
+  }
+  .sec-head h2 { font-size: 1.3rem; margin: 0; letter-spacing: -.01em; }
+  .sec-head .hint { color: var(--muted); font-size: .8rem; }
+
+  /* Screenshot gallery */
+  .gallery {
+    display: flex;
+    gap: 14px;
+    overflow-x: auto;
+    padding: .25rem 1.25rem 1.1rem;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
+  .gallery::-webkit-scrollbar { height: 0; }
+  .shot { scroll-snap-align: start; flex: 0 0 auto; }
+  .shot img {
+    display: block;
+    border-radius: 20px;
+    border: .5px solid var(--hair);
+    box-shadow: var(--shadow);
+    background: var(--surface);
+  }
+  .shot.phone img { height: 460px; width: auto; border-radius: 24px; }
+  .shot.tablet img { height: 460px; width: auto; border-radius: 16px; }
+  .shot .cap { text-align: center; color: var(--muted); font-size: .78rem; margin-top: .5rem; }
+
+  /* Description */
+  .card {
+    background: var(--surface);
+    border: .5px solid var(--hair);
+    border-radius: 16px;
+    box-shadow: var(--shadow);
+    margin: 0 1.25rem;
+    padding: 1.35rem 1.4rem;
+  }
+  .desc { white-space: pre-wrap; font-size: .96rem; line-height: 1.62; }
+  .desc .lede { font-weight: 400; }
+  .promo {
+    font-style: italic;
+    color: var(--muted);
+    margin: 0 1.25rem 1rem;
+    font-size: .95rem;
+  }
+
+  /* Details list */
+  .details { list-style: none; margin: 0; padding: 0; }
+  .details li {
+    display: flex; justify-content: space-between; gap: 1rem;
+    padding: .8rem 0;
+    border-top: .5px solid var(--hair);
+    font-size: .95rem;
+  }
+  .details li:first-child { border-top: none; }
+  .details .k { color: var(--muted); flex: 0 0 auto; }
+  .details .val { text-align: right; font-weight: 600; word-break: break-word; }
+  .details .val a { color: var(--link); text-decoration: none; font-weight: 600; }
+  .kw { display: flex; flex-wrap: wrap; gap: .4rem; justify-content: flex-end; }
+  .kw span {
+    background: var(--pill-bg);
+    color: var(--text);
+    font-size: .78rem;
+    font-weight: 600;
+    padding: .22rem .6rem;
+    border-radius: 999px;
+  }
+
+  footer {
+    text-align: center; color: var(--muted); font-size: .82rem;
+    margin-top: 2.5rem; padding: 0 1.25rem;
+    line-height: 1.6;
+  }
+  footer a { color: var(--link); }
+
+  @media (min-width: 700px) {
+    .app-icon { width: 130px; height: 130px; }
+    .hero-meta h1 { font-size: 2rem; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="banner">LISTING PREVIEW · DRAFT · NOT YET SUBMITTED</div>
+
+  <!-- Hero -->
+  <div class="hero">
+    <img class="app-icon" src="icon.png" alt="Headphonez app icon">
+    <div class="hero-meta">
+      <h1>Headphonez</h1>
+      <p class="hero-sub">Your family's music player</p>
+      <div class="hero-row">
+        <div>
+          <a class="get" href="#" onclick="return false;">GET</a>
+          <div class="price-note">Free</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Fact strip -->
+  <div class="facts">
+    <div class="fact"><div class="k">Price</div><div class="v">Free</div></div>
+    <div class="fact"><div class="k">Category</div><div class="v small">Music</div></div>
+    <div class="fact"><div class="k">Age</div><div class="v">4+</div></div>
+    <div class="fact"><div class="k">Privacy</div><div class="v small">Data Not Collected</div></div>
+  </div>
+
+  <!-- Promotional text -->
+  <section>
+    <p class="promo">A warm, private music player for the whole family — powered by the Navidrome or Subsonic server you already run at home.</p>
+  </section>
+
+  <!-- iPhone screenshots -->
+  <section>
+    <div class="sec-head">
+      <h2>iPhone</h2>
+      <span class="hint">Swipe to see all 5 →</span>
+    </div>
+    <div class="gallery">
+      <div class="shot phone"><img src="screenshots/iphone/01-albums.png" alt="Albums" loading="lazy"><div class="cap">Albums</div></div>
+      <div class="shot phone"><img src="screenshots/iphone/02-album-detail.png" alt="Album detail" loading="lazy"><div class="cap">Album detail</div></div>
+      <div class="shot phone"><img src="screenshots/iphone/03-full-player.png" alt="Full-screen player" loading="lazy"><div class="cap">Full player</div></div>
+      <div class="shot phone"><img src="screenshots/iphone/04-artists.png" alt="Artists" loading="lazy"><div class="cap">Artists</div></div>
+      <div class="shot phone"><img src="screenshots/iphone/05-profile-picker.png" alt="Profile picker" loading="lazy"><div class="cap">Profile picker</div></div>
+    </div>
+  </section>
+
+  <!-- iPad screenshots -->
+  <section>
+    <div class="sec-head">
+      <h2>iPad</h2>
+      <span class="hint">Swipe to see all 5 →</span>
+    </div>
+    <div class="gallery">
+      <div class="shot tablet"><img src="screenshots/ipad/01-albums.png" alt="Albums on iPad" loading="lazy"><div class="cap">Albums</div></div>
+      <div class="shot tablet"><img src="screenshots/ipad/02-album-detail.png" alt="Album detail on iPad" loading="lazy"><div class="cap">Album detail</div></div>
+      <div class="shot tablet"><img src="screenshots/ipad/03-full-player.png" alt="Full-screen player on iPad" loading="lazy"><div class="cap">Full player</div></div>
+      <div class="shot tablet"><img src="screenshots/ipad/04-artists.png" alt="Artists on iPad" loading="lazy"><div class="cap">Artists</div></div>
+      <div class="shot tablet"><img src="screenshots/ipad/05-profile-picker.png" alt="Profile picker on iPad" loading="lazy"><div class="cap">Profile picker</div></div>
+    </div>
+  </section>
+
+  <!-- Description -->
+  <section>
+    <div class="sec-head"><h2>Description</h2></div>
+    <div class="card">
+<div class="desc">Headphonez is a third-party music player for your own self-hosted Navidrome or Subsonic (OpenSubsonic) server. It requires a server you already run and includes no music of its own — Headphonez simply plays the library you already have, and makes it feel at home on your iPhone and iPad.
+
+BUILT FOR THE WHOLE FAMILY
+- Give each person their own profile. Everyone sees their own library plus a shared library the whole household can enjoy.
+- On a shared iPhone or iPad, an optional profile picker lets whoever picked up the device choose who's listening.
+- A parent area, protected by Face ID or a passcode, keeps server settings out of little hands.
+
+YOUR LIBRARY, ORGANIZED
+- Browse by Artists, Albums, Genres, and Recently Added.
+- Open any album to see its full track list and artwork.
+- Tap a track and it plays.
+
+A PLAYER YOU'LL ENJOY
+- A full-screen player with a play queue, shuffle, and repeat.
+- A mini-player stays with you while you keep browsing.
+- Album artwork throughout.
+
+PLAYS THE WAY YOU LISTEN
+- Streams over your own network.
+- Keeps playing in the background.
+- Full Lock Screen and Control Center controls.
+- AirPlay to your speakers, Apple TV, and other devices.
+
+PRIVATE BY DESIGN
+- Stores only your server login, kept in the iOS Keychain.
+- No ads. No tracking. No analytics. No accounts to create.
+- Your music and your server stay yours.
+
+WHAT YOU'LL NEED
+Headphonez connects to a Navidrome or Subsonic (OpenSubsonic) server that you host yourself. If you don't already run one, this app won't have anything to play. Point it at your server, sign in, and your library is ready.
+
+Headphonez is an independent app and is not affiliated with the Navidrome or Subsonic projects.</div>
+    </div>
+  </section>
+
+  <!-- Details -->
+  <section>
+    <div class="sec-head"><h2>Information</h2></div>
+    <div class="card">
+      <ul class="details">
+        <li><span class="k">Keywords</span><span class="val"><span class="kw">
+          <span>navidrome</span><span>subsonic</span><span>opensubsonic</span><span>selfhosted</span><span>server</span><span>streamer</span><span>library</span><span>albums</span><span>artist</span><span>genre</span><span>flac</span><span>airplay</span>
+        </span></span></li>
+        <li><span class="k">Category</span><span class="val">Music</span></li>
+        <li><span class="k">Age Rating</span><span class="val">4+</span></li>
+        <li><span class="k">Price</span><span class="val">Free</span></li>
+        <li><span class="k">App Privacy</span><span class="val">Data Not Collected</span></li>
+        <li><span class="k">Copyright</span><span class="val">© 2026 Patrick Burris</span></li>
+        <li><span class="k">Support</span><span class="val"><a href="https://eleazar123.github.io/headphonez-site/index.html">Support page</a></span></li>
+        <li><span class="k">Privacy Policy</span><span class="val"><a href="https://eleazar123.github.io/headphonez-site/privacy.html">Privacy page</a></span></li>
+      </ul>
+    </div>
+  </section>
+
+  <footer>
+    <p>This is a listing preview for review only — nothing has been submitted to the App Store.</p>
+    <p>Headphonez is not affiliated with the Navidrome or Subsonic projects.</p>
+  </footer>
+</div>
+</body>
+</html>
